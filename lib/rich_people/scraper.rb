@@ -1,8 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
-require 'pry'
 require 'awesome_print'
-require_relative './person.rb'
+require_relative './people.rb'
 
 module RichPeople
     class Scraper
@@ -71,6 +70,4 @@ module RichPeople
         # end
     end
 end
- Scraper.new.get_page
 
- ap Scraper.new.save_people
