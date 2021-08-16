@@ -2,6 +2,7 @@
 require 'nokogiri'
 require 'open-uri'
 require 'awesome_print'
+require 'ruby-progressbar'
 require_relative "rich_people/version"
 require_relative "rich_people/people"
 require_relative "rich_people/scraper"

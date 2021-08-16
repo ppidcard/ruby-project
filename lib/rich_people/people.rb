@@ -23,9 +23,16 @@ module RichPeople
             @gender = value
         end
 
-        def list_people_index
-            People.all.select.with_index do |e, i|
-                puts "#{i+1}. #{e.name}" if i<26
+        def list_people_index(start)
+            idx = start * 25
+            People.all.select.with_index(1) do |e, i|
+                puts "              #{i}.   #{e.name}" if i > idx && i < (idx + 25)
+            end
+        end
+
+        def display_details(index)
+            People.all.select.with_index(1) do |e, i|
+                puts e if i == index
             end
         end
     end

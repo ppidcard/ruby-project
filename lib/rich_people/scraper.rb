@@ -21,7 +21,9 @@ module RichPeople
 
         def save_people
             people = get_people
+            print "Loading Data"
             people.map do |person|
+                print "=" 
                 new_person = People.new
                 name = person.css("h2.title").text.strip
                 new_person.name = name.split(' ')[0..-3].join(" ")
@@ -29,7 +31,6 @@ module RichPeople
                 new_person.url = person.css("a.anchor").attr("href").value.strip
                 new_person.description = person.css(".bio").text.strip
                 person_detail(new_person)
-                
             end
         end
 
@@ -63,11 +64,7 @@ module RichPeople
             end
         end
 
-        # def print_courses
-        #     Course.all.each.with_index(1) do |course, index|
-        #         puts "#{index}. #{course.title}"
-        #     end
-        # end
+
     end
 end
 

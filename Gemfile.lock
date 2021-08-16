@@ -5,6 +5,7 @@ PATH
       awesome_print
       nokogiri
       open-uri
+      ruby-progressbar
 
 GEM
   remote: https://rubygems.org/
