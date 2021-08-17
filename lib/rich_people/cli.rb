@@ -31,12 +31,14 @@ module RichPeople
                 system("clear")
                 puts "Please select the following option:"
                 puts 
-                puts "1. Check name lists"
-                puts "2. Search"
+                puts "1. List All People"
+                puts "2. Search By Name"
                 puts
                 input = gets 
                 list_or_search(input)
-            else puts "Please enter y or n."
+            elsif(input.chomp == 'e')
+                end_program
+            else puts "Please enter y or n, or e to end the program."
                 puts 
                 input = gets
                 initial_query(input)
@@ -48,6 +50,18 @@ module RichPeople
                 system("clear")
                 scrape_date
                 list_people
+            elsif (input.to_i == 2 || input == "2.")
+                puts "Please enter the name that you would like to search, or enter r to return to the previous page, or e to end the program."
+                puts
+                input = gets
+            end
+        end
+
+        def search(input)
+            if input.chomp == 'r'
+                initial_query('y')
+            elsif input.chomp == 'e'
+                end_program
             end
         end
 
@@ -73,6 +87,8 @@ module RichPeople
                 puts "                                                                       next(n)"
             end
             puts 
+            puts "Please select a number, or enter r to return to the previous page, or enter e to end the program."
+            puts
             input = gets
             if input.chomp == 'n'
                 ARR << input
@@ -81,14 +97,51 @@ module RichPeople
             elsif input.chomp == 'p'
                 ARR.pop() unless ARR.length == 0
                 list_people
-            else
+            elsif input.chomp == 'r'
+                initial_query('y')
+            elsif input.chomp == 'e'
+                end_program
+            elsif input.to_i.class == Integer && input.to_i != 0
                 system("clear")
-                RichPeople::People.new.display_details(input.to_i) 
+                display_details(input.to_i) 
+            else 
+                puts "Please select a number, or enter r to return to the previous page, or enter e to end the program."
+                puts
+                input = gets
+                list_people
             end
         end
 
+        def display_details(input)
+            name = RichPeople::People.new.display_first_name(input)
+            RichPeople::People.new.display_details(input) 
+            puts
+            puts "..."
+            puts
+            puts "Enter k to know more about #{name}, or r to return to the previous page."
+            puts
+            new_input = gets 
+            more_details(input) if new_input.chomp == 'k'
+        end
+
+        def more_details(index)
+            system("clear")
+            RichPeople::People.new.display_details(index)
+            puts "..."
+            RichPeople::People.new.more_details(index)
+            puts
+            puts "..."
+            puts
+            puts "Enter e to exit the progrem, or r to return to the previous page."
+            answer = gets
+            end_program if answer.chomp == 'e'
+            list_people if answer.chomp == 'r'
+        end
+
         def end_program
+            system("clear")
             puts "                                                            Destroyed..."
+            ARR.clear
             progress_bar(0.03)
             exit
         end
