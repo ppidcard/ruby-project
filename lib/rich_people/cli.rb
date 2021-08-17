@@ -1,5 +1,6 @@
 module RichPeople
     class CLI
+        ARR = []
         def call
             system("clear")
             progress_bar(0.1)
@@ -34,14 +35,20 @@ module RichPeople
                 puts "2. Search"
                 puts
                 input = gets 
-                list_people if (input.to_i == 1 || input == "1.")
-            
+                list_or_search(input)
             else puts "Please enter y or n."
                 puts 
                 input = gets
-                 initial_query(input)
+                initial_query(input)
+            end    
+        end
+
+        def list_or_search(input)
+            if (input.to_i == 1 || input == "1.")
+                system("clear")
+                scrape_date
+                list_people
             end
-            
         end
 
         def progress_bar(speed)
@@ -54,20 +61,28 @@ module RichPeople
         end
 
         def list_people
-            system("clear")
-            RichPeople::Scraper.new.save_people
             puts
             system("clear")
-            arr = []
-            RichPeople::People.new.list_people_index(arr.length)
+            RichPeople::People.new.list_people_index(ARR.length)
             puts
-            puts "                                                            Next(enter n)"
+            if ARR.length > 0 && ARR.length < 3
+                puts "previous(p)                                                            next(n)"
+            elsif ARR.length == 3
+                puts "previous(p)                                                                   "    
+            else 
+                puts "                                                                       next(n)"
+            end
             puts 
             input = gets
-            if input == 'n'
-            arr << input
-            RichPeople::People.new.list_people_index(arr.length)
+            if input.chomp == 'n'
+                ARR << input
+                system("clear")
+                list_people
+            elsif input.chomp == 'p'
+                ARR.pop() unless ARR.length == 0
+                list_people
             else
+                system("clear")
                 RichPeople::People.new.display_details(input.to_i) 
             end
         end
