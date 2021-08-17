@@ -54,6 +54,7 @@ module RichPeople
                 puts "Please enter the name that you would like to search, or enter r to return to the previous page, or e to end the program."
                 puts
                 input = gets
+                search(input)
             end
         end
 
