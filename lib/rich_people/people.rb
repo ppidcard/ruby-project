@@ -30,6 +30,14 @@ module RichPeople
             end
         end
 
+        def search_by_name(input)
+            People.all.select.with_index(1) do |e, i|
+                if (e.name.to_s.include? (input.chomp.capitalize)) && i < 101
+                    puts "              #{i}.   #{e.name}"
+                end
+            end
+        end
+
         def display_first_name(index)
             name = ''
             People.all.select.with_index(1) {|e, i| name = e.name.split(" ")[0] if i == index}
