@@ -1,5 +1,7 @@
 module RichPeople
     class CLI
+        attr_accessor :initial_input
+        @initial_input = ''
         ARR = []
         def call
             system("clear")
@@ -35,6 +37,7 @@ module RichPeople
                 puts "2. Search By Name"
                 puts
                 input = gets 
+                @initial_input = input
                 list_or_search(input)
             elsif(input.chomp == 'e')
                 end_program
@@ -147,11 +150,11 @@ module RichPeople
             puts
             puts "..."
             puts
-            puts "Enter k to know more about #{name}, or r to return to the previous page."
+            puts "Enter k to know more about #{name}, or r to return to the previous page, or e to end the program."
             puts
             new_input = gets 
             more_details(input) if new_input.chomp == 'k'
-            initial_query('y') if new_input.chomp == 'r'
+            return_prev_page(new_input)
         end
 
         def more_details(index)
@@ -164,10 +167,14 @@ module RichPeople
             puts
             puts "Enter e to exit the progrem, or r to return to the previous page."
             answer = gets
-            end_program if answer.chomp == 'e'
-            list_people if answer.chomp == 'r'
+            return_prev_page(answer)
         end
 
+        def return_prev_page(answer)
+            end_program if answer.chomp == 'e'
+            list_people if answer.chomp == 'r' && @initial_input.to_i == 1
+            list_or_search(2) if answer.chomp == 'r' && @initial_input.to_i == 2
+        end
         def end_program
             system("clear")
             puts "                                                            Destroyed..."
